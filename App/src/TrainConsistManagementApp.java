@@ -1,14 +1,19 @@
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.Set;
+
 public class TrainConsistManagementApp {
+
     public static void main(String[] args) {
+
         System.out.println("=== Train Consist Management App ===");
         ArrayList<String> bogies = new ArrayList<>();
         System.out.println("Train Consist Initialized.");
         System.out.println("Initial Bogie Count: " + bogies.size());
         System.out.println();
+
         System.out.println("--- UC2: Add Passenger Bogies ---");
         bogies.add("Sleeper");
         bogies.add("AC Chair");
@@ -25,17 +30,18 @@ public class TrainConsistManagementApp {
         System.out.println("Final Bogie List: " + bogies);
         System.out.println("Final Bogie Count: " + bogies.size());
         System.out.println();
+
         System.out.println("--- UC3: Track Unique Bogie IDs (HashSet) ---");
         Set<String> bogieIDs = new HashSet<>();
         bogieIDs.add("B001");
         bogieIDs.add("B002");
         bogieIDs.add("B003");
-        bogieIDs.add("B001");  
-        bogieIDs.add("B002");  
+        bogieIDs.add("B001");
+        bogieIDs.add("B002");
         System.out.println("Unique Bogie IDs: " + bogieIDs);
         System.out.println("Total Unique Bogie Count: " + bogieIDs.size());
         System.out.println();
-        boolean wasAdded = bogieIDs.add("B003"); 
+        boolean wasAdded = bogieIDs.add("B003");
         System.out.println("Trying to add 'B003' again...");
         System.out.println("Was 'B003' added? " + wasAdded);
         System.out.println();
@@ -44,6 +50,7 @@ public class TrainConsistManagementApp {
         System.out.println();
         System.out.println("Final Unique Bogie IDs: " + bogieIDs);
         System.out.println();
+
         System.out.println("--- UC4: Maintain Ordered Bogie Consist (LinkedList) ---");
         LinkedList<String> consist = new LinkedList<>();
         consist.addLast("Engine");
@@ -69,6 +76,23 @@ public class TrainConsistManagementApp {
         System.out.println();
         System.out.println("Final Ordered Train Consist: " + consist);
         System.out.println("Total Bogies in Consist: " + consist.size());
+        System.out.println();
+
+        System.out.println("--- UC5: Preserve Insertion Order of Bogies (LinkedHashSet) ---");
+        LinkedHashSet<String> formation = new LinkedHashSet<>();
+        formation.add("Engine");
+        formation.add("Sleeper");
+        formation.add("Cargo");
+        formation.add("Guard");
+        formation.add("Sleeper");
+        System.out.println("Train Formation (insertion order preserved): " + formation);
+        System.out.println("Total Bogies in Formation: " + formation.size());
+        System.out.println();
+        boolean duplicateAdded = formation.add("Sleeper");
+        System.out.println("Trying to attach 'Sleeper' again...");
+        System.out.println("Was duplicate 'Sleeper' attached? " + duplicateAdded);
+        System.out.println();
+        System.out.println("Final Train Formation: " + formation);
         System.out.println();
         System.out.println("Program continues...");
     }
