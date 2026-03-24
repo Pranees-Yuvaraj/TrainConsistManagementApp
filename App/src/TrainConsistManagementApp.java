@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.Set;
 public class TrainConsistManagementApp {
     public static void main(String[] args) {
@@ -29,12 +30,12 @@ public class TrainConsistManagementApp {
         bogieIDs.add("B001");
         bogieIDs.add("B002");
         bogieIDs.add("B003");
-        bogieIDs.add("B001");
-        bogieIDs.add("B002");
+        bogieIDs.add("B001");  
+        bogieIDs.add("B002");  
         System.out.println("Unique Bogie IDs: " + bogieIDs);
         System.out.println("Total Unique Bogie Count: " + bogieIDs.size());
         System.out.println();
-        boolean wasAdded = bogieIDs.add("B003");
+        boolean wasAdded = bogieIDs.add("B003"); 
         System.out.println("Trying to add 'B003' again...");
         System.out.println("Was 'B003' added? " + wasAdded);
         System.out.println();
@@ -42,6 +43,33 @@ public class TrainConsistManagementApp {
         System.out.println("Does 'B999' exist? " + bogieIDs.contains("B999"));
         System.out.println();
         System.out.println("Final Unique Bogie IDs: " + bogieIDs);
+        System.out.println();
+        System.out.println("--- UC4: Maintain Ordered Bogie Consist (LinkedList) ---");
+        LinkedList<String> consist = new LinkedList<>();
+        consist.addLast("Engine");
+        consist.addLast("Sleeper");
+        consist.addLast("AC");
+        consist.addLast("Cargo");
+        consist.addLast("Guard");
+        System.out.println("Initial Train Consist: " + consist);
+        System.out.println();
+        consist.add(2, "Pantry Car");
+        System.out.println("After inserting 'Pantry Car' at position 2: " + consist);
+        System.out.println();
+        String removedFirst = consist.removeFirst();
+        System.out.println("Removed from front: " + removedFirst);
+        System.out.println("Consist after removeFirst(): " + consist);
+        System.out.println();
+        String removedLast = consist.removeLast();
+        System.out.println("Removed from end: " + removedLast);
+        System.out.println("Consist after removeLast(): " + consist);
+        System.out.println();
+        System.out.println("First bogie (peekFirst): " + consist.peekFirst());
+        System.out.println("Last bogie  (peekLast) : " + consist.peekLast());
+        System.out.println();
+        System.out.println("Final Ordered Train Consist: " + consist);
+        System.out.println("Total Bogies in Consist: " + consist.size());
+        System.out.println();
         System.out.println("Program continues...");
     }
 }
