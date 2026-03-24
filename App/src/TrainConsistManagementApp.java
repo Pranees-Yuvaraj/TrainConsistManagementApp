@@ -1,12 +1,28 @@
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 public class TrainConsistManagementApp {
+
+    static class Bogie {
+        String name;
+        int capacity;
+
+        Bogie(String name, int capacity) {
+            this.name = name;
+            this.capacity = capacity;
+        }
+
+        public String toString() {
+            return name + " (Capacity: " + capacity + ")";
+        }
+    }
 
     public static void main(String[] args) {
 
@@ -111,8 +127,8 @@ public class TrainConsistManagementApp {
             System.out.println("  Bogie: " + entry.getKey() + "  -->  Capacity: " + entry.getValue());
         }
         System.out.println();
-        System.out.println("Capacity of 'Sleeper': " + bogieCapacity.get("Sleeper"));
-        System.out.println("Capacity of 'AC Chair': " + bogieCapacity.get("AC Chair"));
+        System.out.println("Capacity of 'Sleeper'  : " + bogieCapacity.get("Sleeper"));
+        System.out.println("Capacity of 'AC Chair' : " + bogieCapacity.get("AC Chair"));
         System.out.println();
         bogieCapacity.put("Sleeper", 80);
         System.out.println("Updated 'Sleeper' capacity to 80.");
@@ -126,6 +142,41 @@ public class TrainConsistManagementApp {
             System.out.println("  " + entry.getKey() + " : " + entry.getValue() + " seats");
         }
         System.out.println();
+
+        System.out.println("--- UC7: Sort Bogies by Capacity (Comparator) ---");
+        List<Bogie> passengerBogies = new ArrayList<>();
+        passengerBogies.add(new Bogie("Sleeper", 72));
+        passengerBogies.add(new Bogie("AC Chair", 64));
+        passengerBogies.add(new Bogie("First Class", 18));
+        passengerBogies.add(new Bogie("General", 120));
+        passengerBogies.add(new Bogie("Pantry Car", 10));
+
+        System.out.println("Bogies before sorting:");
+        for (Bogie b : passengerBogies) {
+            System.out.println("  " + b);
+        }
+        System.out.println();
+
+        passengerBogies.sort(Comparator.comparingInt(b -> b.capacity));
+
+        System.out.println("Bogies sorted by capacity (ascending):");
+        for (Bogie b : passengerBogies) {
+            System.out.println("  " + b);
+        }
+        System.out.println();
+
+        passengerBogies.sort(Comparator.comparingInt((Bogie b) -> b.capacity).reversed());
+
+        System.out.println("Bogies sorted by capacity (descending):");
+        for (Bogie b : passengerBogies) {
+            System.out.println("  " + b);
+        }
+        System.out.println();
+
+        System.out.println("Highest capacity bogie: " + passengerBogies.get(0));
+        System.out.println("Lowest  capacity bogie: " + passengerBogies.get(passengerBogies.size() - 1));
+        System.out.println();
+
         System.out.println("Program continues...");
     }
 }
