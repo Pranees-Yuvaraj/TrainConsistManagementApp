@@ -1,7 +1,9 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.Set;
 
 public class TrainConsistManagementApp {
@@ -93,6 +95,36 @@ public class TrainConsistManagementApp {
         System.out.println("Was duplicate 'Sleeper' attached? " + duplicateAdded);
         System.out.println();
         System.out.println("Final Train Formation: " + formation);
+        System.out.println();
+
+        System.out.println("--- UC6: Map Bogie to Capacity (HashMap) ---");
+        HashMap<String, Integer> bogieCapacity = new HashMap<>();
+        bogieCapacity.put("Sleeper", 72);
+        bogieCapacity.put("AC Chair", 64);
+        bogieCapacity.put("First Class", 18);
+        bogieCapacity.put("Pantry Car", 0);
+        bogieCapacity.put("Cargo", 100);
+        System.out.println("Bogie Capacity Map: " + bogieCapacity);
+        System.out.println();
+        System.out.println("Bogie-wise Capacity Details:");
+        for (Map.Entry<String, Integer> entry : bogieCapacity.entrySet()) {
+            System.out.println("  Bogie: " + entry.getKey() + "  -->  Capacity: " + entry.getValue());
+        }
+        System.out.println();
+        System.out.println("Capacity of 'Sleeper': " + bogieCapacity.get("Sleeper"));
+        System.out.println("Capacity of 'AC Chair': " + bogieCapacity.get("AC Chair"));
+        System.out.println();
+        bogieCapacity.put("Sleeper", 80);
+        System.out.println("Updated 'Sleeper' capacity to 80.");
+        System.out.println("New Capacity of 'Sleeper': " + bogieCapacity.get("Sleeper"));
+        System.out.println();
+        System.out.println("Does 'First Class' exist in map? " + bogieCapacity.containsKey("First Class"));
+        System.out.println("Does 'Luxury' exist in map?    " + bogieCapacity.containsKey("Luxury"));
+        System.out.println();
+        System.out.println("Final Bogie Capacity Map:");
+        for (Map.Entry<String, Integer> entry : bogieCapacity.entrySet()) {
+            System.out.println("  " + entry.getKey() + " : " + entry.getValue() + " seats");
+        }
         System.out.println();
         System.out.println("Program continues...");
     }
