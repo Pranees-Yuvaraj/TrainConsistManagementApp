@@ -4,13 +4,15 @@ import java.util.stream.Collectors;
 
 public class TrainConsistManagementApp {
 
-    static class Bogie {
+    static class GoodsBogie {
         String name;
-        int capacity;
+        String type;
+        String cargo;
 
-        Bogie(String name, int capacity) {
+        GoodsBogie(String name, String type, String cargo) {
             this.name = name;
-            this.capacity = capacity;
+            this.type = type;
+            this.cargo = cargo;
         }
     }
 
