@@ -1,91 +1,62 @@
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Scanner;
 
 public class TrainConsistManagementApp {
+    public static void assignCargo(Bogie bogie, String cargo) {
 
-    static class Bogie {
-        String name;
-        int capacity;
+        try {
+            System.out.println("\nAttempting to assign cargo...");
 
-        Bogie(String name, int capacity) {
-            this.name = name;
-            this.capacity = capacity;
+            // 🚨 Rule Check
+            if (cargo.equalsIgnoreCase("petroleum") &&
+                bogie.getShape().equalsIgnoreCase("rectangular")) {
+
+                throw new CargoSafetyException(
+                    "Unsafe Cargo! Petroleum cannot be loaded in a rectangular bogie."
+                );
+            }
+
+            // ✅ Safe Assignment
+            bogie.setCargo(cargo);
+            System.out.println("✅ Cargo '" + cargo + "' assigned successfully to "
+                    + bogie.getShape() + " bogie.");
+
+        } catch (CargoSafetyException e) {
+            System.out.println("❌ ERROR: " + e.getMessage());
+
+        } finally {
+            System.out.println("📋 Logging: Cargo assignment attempt completed.");
         }
     }
 
+    // 🎮 Main Method
     public static void main(String[] args) {
 
-        System.out.println("=== Train Consist Management App ===");
-        System.out.println();
+        Scanner scanner = new Scanner(System.in);
 
-        System.out.println("--- UC13: Performance Comparison (Loops vs Streams) ---");
-        System.out.println();
+        System.out.println("🚆 Train Consist Management System - UC15");
 
-        List<Bogie> bogieList = new ArrayList<>();
-        for (int i = 1; i <= 100000; i++) {
-            bogieList.add(new Bogie("Bogie-" + i, i % 150));
-        }
+        // Create Bogie
+        System.out.print("\nEnter bogie shape (rectangular/cylindrical): ");
+        String shape = scanner.nextLine();
 
-        System.out.println("Dataset size: " + bogieList.size() + " bogies");
-        System.out.println("Filter condition: capacity > 60");
-        System.out.println();
+        Bogie bogie = new Bogie(shape);
 
-        // ---- Loop-based filtering ----
-        long loopStart = System.nanoTime();
+        // Enter Cargo
+        System.out.print("Enter cargo type: ");
+        String cargo = scanner.nextLine();
 
-        List<Bogie> loopResult = new ArrayList<>();
-        for (Bogie b : bogieList) {
-            if (b.capacity > 60) {
-                loopResult.add(b);
-            }
-        }
+        // Assign Cargo
+        assignCargo(bogie, cargo);
 
-        long loopEnd = System.nanoTime();
-        long loopDuration = loopEnd - loopStart;
-
-        System.out.println("Loop-Based Filtering:");
-        System.out.println("  Bogies matched : " + loopResult.size());
-        System.out.println("  Time taken     : " + loopDuration + " ns  (" + loopDuration / 1_000_000 + " ms)");
-        System.out.println();
-
-        // ---- Stream-based filtering ----
-        long streamStart = System.nanoTime();
-
-        List<Bogie> streamResult = bogieList.stream()
-                .filter(b -> b.capacity > 60)
-                .collect(Collectors.toList());
-
-        long streamEnd = System.nanoTime();
-        long streamDuration = streamEnd - streamStart;
-
-        System.out.println("Stream-Based Filtering:");
-        System.out.println("  Bogies matched : " + streamResult.size());
-        System.out.println("  Time taken     : " + streamDuration + " ns  (" + streamDuration / 1_000_000 + " ms)");
-        System.out.println();
-
-        // ---- Comparison Summary ----
-        System.out.println("======================================");
-        System.out.println("  Performance Summary");
-        System.out.println("======================================");
-        System.out.println("  Loop   duration : " + loopDuration + " ns");
-        System.out.println("  Stream duration : " + streamDuration + " ns");
-        System.out.println();
-
-        if (loopDuration < streamDuration) {
-            System.out.println("  Result: Loop was faster by " + (streamDuration - loopDuration) + " ns");
-        } else if (streamDuration < loopDuration) {
-            System.out.println("  Result: Stream was faster by " + (loopDuration - streamDuration) + " ns");
+        // Show Final Status
+        if (bogie.getCargo() != null) {
+            System.out.println("\n🚃 Final Status: Cargo = " + bogie.getCargo());
         } else {
-            System.out.println("  Result: Both performed equally.");
+            System.out.println("\n🚃 Final Status: No cargo assigned due to safety restrictions.");
         }
-        System.out.println("======================================");
-        System.out.println();
-        System.out.println("  Note: First stream run may be slower due to JVM warm-up.");
-        System.out.println("        Streams offer better readability and scalability.");
-        System.out.println("        For large datasets, parallel streams can outperform loops.");
-        System.out.println();
 
-        System.out.println("Program continues...");
+        System.out.println("\n🚀 Program continues safely...");
+
+        scanner.close();
     }
 }
