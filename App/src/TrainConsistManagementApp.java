@@ -26,6 +26,10 @@ public class TrainConsistManagementApp {
         } finally {
             System.out.println("📋 Logging: Cargo assignment attempt completed.");
         }
+
+        public String toString() {
+            return type + " -> " + capacity;
+        }
     }
 
     // 🎮 Main Method
