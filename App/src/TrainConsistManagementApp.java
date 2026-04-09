@@ -1,21 +1,30 @@
+import java.util.Scanner;
+
 public class TrainConsistManagementApp {
+    public static void assignCargo(Bogie bogie, String cargo) {
 
-    static class InvalidCapacityException extends Exception {
-        public InvalidCapacityException(String message) {
-            super(message);
-        }
-    }
+        try {
+            System.out.println("\nAttempting to assign cargo...");
 
-    static class PassengerBogie {
-        String type;
-        int capacity;
+            // 🚨 Rule Check
+            if (cargo.equalsIgnoreCase("petroleum") &&
+                bogie.getShape().equalsIgnoreCase("rectangular")) {
 
-        PassengerBogie(String type, int capacity) throws InvalidCapacityException {
-            if (capacity <= 0) {
-                throw new InvalidCapacityException("Capacity must be greater than zero");
+                throw new CargoSafetyException(
+                    "Unsafe Cargo! Petroleum cannot be loaded in a rectangular bogie."
+                );
             }
-            this.type = type;
-            this.capacity = capacity;
+
+            // ✅ Safe Assignment
+            bogie.setCargo(cargo);
+            System.out.println("✅ Cargo '" + cargo + "' assigned successfully to "
+                    + bogie.getShape() + " bogie.");
+
+        } catch (CargoSafetyException e) {
+            System.out.println("❌ ERROR: " + e.getMessage());
+
+        } finally {
+            System.out.println("📋 Logging: Cargo assignment attempt completed.");
         }
 
         public String toString() {
@@ -23,40 +32,35 @@ public class TrainConsistManagementApp {
         }
     }
 
+    // 🎮 Main Method
     public static void main(String[] args) {
 
-        System.out.println("=== Train Consist Management App ===");
-        System.out.println();
-        System.out.println("==============================================");
-        System.out.println(" UC14 - Handle Invalid Bogie Capacity");
-        System.out.println("==============================================");
-        System.out.println();
+        Scanner scanner = new Scanner(System.in);
 
-        // Valid bogie — capacity > 0
-        try {
-            PassengerBogie sleeper = new PassengerBogie("Sleeper", 72);
-            System.out.println("Created Bogie: " + sleeper);
-        } catch (InvalidCapacityException e) {
-            System.out.println("Error: " + e.getMessage());
+        System.out.println("🚆 Train Consist Management System - UC15");
+
+        // Create Bogie
+        System.out.print("\nEnter bogie shape (rectangular/cylindrical): ");
+        String shape = scanner.nextLine();
+
+        Bogie bogie = new Bogie(shape);
+
+        // Enter Cargo
+        System.out.print("Enter cargo type: ");
+        String cargo = scanner.nextLine();
+
+        // Assign Cargo
+        assignCargo(bogie, cargo);
+
+        // Show Final Status
+        if (bogie.getCargo() != null) {
+            System.out.println("\n🚃 Final Status: Cargo = " + bogie.getCargo());
+        } else {
+            System.out.println("\n🚃 Final Status: No cargo assigned due to safety restrictions.");
         }
 
-        // Invalid bogie — capacity = 0
-        try {
-            PassengerBogie invalid = new PassengerBogie("AC Chair", 0);
-            System.out.println("Created Bogie: " + invalid);
-        } catch (InvalidCapacityException e) {
-            System.out.println("Error: " + e.getMessage());
-        }
+        System.out.println("\n🚀 Program continues safely...");
 
-        // Invalid bogie — capacity < 0
-        try {
-            PassengerBogie negative = new PassengerBogie("First Class", -10);
-            System.out.println("Created Bogie: " + negative);
-        } catch (InvalidCapacityException e) {
-            System.out.println("Error: " + e.getMessage());
-        }
-
-        System.out.println();
-        System.out.println("UC14 exception handling completed...");
+        scanner.close();
     }
 }
